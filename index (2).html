@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Laosvip888</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+
+    body {
+      min-height: 100dvh;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #app {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
+
+    #frame {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 100dvh;
+      border: 0;
+      background: #000;
+    }
+
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      color: #fff;
+      transition: opacity .22s ease, visibility .22s ease;
+    }
+
+    #loader.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loading-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.05);
+      font-size: 14px;
+      letter-spacing: .2px;
+    }
+
+    .spinner {
+      width: 30px;
+      height: 30px;
+      border: 3px solid rgba(255,255,255,.18);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    #error {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      background: #000;
+      color: #fff;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <iframe
+      id="frame"
+      title="Laosvip888"
+      allow="autoplay; fullscreen; clipboard-read; clipboard-write"
+      allowfullscreen
+      referrerpolicy="no-referrer"
+    ></iframe>
+  </div>
+
+  <div id="loader">
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <span>กำลังโหลด...</span>
+    </div>
+  </div>
+
+  <div id="error">
+    ไม่สามารถโหลดหน้าเว็บได้ กรุณาลองรีเฟรชอีกครั้ง
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const frame = document.getElementById("frame");
+      const loader = document.getElementById("loader");
+      const errorBox = document.getElementById("error");
+
+      // URL is encoded so the real address is not stored as readable text
+      // inside the HTML source.
+      const k = 73;
+      const d = [33, 61, 61, 57, 58, 115, 102, 102, 45, 63, 47, 63, 33, 39, 49, 103, 58, 61, 38, 59, 44, 102];
+
+      const decode = (arr, key) =>
+        arr.map(n => String.fromCharCode(n ^ key)).join("");
+
+      const target = decode(d, k);
+
+      let loaded = false;
+
+      const finishLoading = () => {
+        if (loaded) return;
+        loaded = true;
+        loader.classList.add("hide");
+      };
+
+      frame.addEventListener("load", () => {
+        finishLoading();
+      }, { once: true });
+
+      // Safety fallback so the loading screen never stays forever.
+      setTimeout(() => {
+        finishLoading();
+      }, 8000);
+
+      try {
+        frame.src = target;
+      } catch (e) {
+        loader.classList.add("hide");
+        errorBox.style.display = "flex";
+      }
+
+      // Keep the visible GitHub Pages URL clean when using fragments.
+      if (location.hash) {
+        history.replaceState(null, "", location.pathname + location.search);
+      }
+    })();
+  </script>
+</body>
+</html>
